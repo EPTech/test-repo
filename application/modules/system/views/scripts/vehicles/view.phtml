@@ -1,0 +1,71 @@
+<?php //$this->headLink()->prependStylesheet('/resources/css/config.css');      ?>
+<?php ///$this->headLink()->prependStylesheet('/resources/css/paginate.css');      ?>
+<?php //$this->headLink()->prependStylesheet('/resources/css/info.css');      ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/jquery/js/jquery-1.7.2.min.js'));      ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/DataTables/media/js/jquery.dataTables.js'));      ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/vendors/twitter-bootstrap/js/bootstrap-tab.js'));   ?>
+
+<h3 class="black"><i class="icon-user"></i> Vehicle details</h3>
+<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#lA">Details</a></li>
+        <li><a data-toggle="tab" href="#lB">Charges</a></li>
+    </ul>
+    <div class="tab-content" style="width: auto; overflow: auto;">
+        <div id="lA" class="tab-pane active">
+           <?php  if($this->vehicle !== null){ ?>
+            <?php $v  = $this->vehicle; ?>
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;Manufacturer : </td><td>&nbsp;&nbsp;&nbsp;<b><?php echo $v->manufacturer; ?></b> </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Model : </td><td>&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_model.', '.$v->model_year; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;No of Doors : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->model_doors; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Vehicle Type : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_type; ?></b> </td>
+                </tr>
+                 
+                 <tr>
+                    <td>&nbsp;&nbsp;Vehicle uses : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_use; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Drive Train : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->drive_train; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Vehicle color: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_color; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Vehicle condition: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_condition; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Vehicle mileage : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_mileage; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Chasis No.: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_chasis_num; ?></b> </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Engine No.: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->vehicle_engine_num; ?></b> </td>
+                </tr>
+                 <tr>
+                    <td>&nbsp;&nbsp;Engine category : </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->engcat_title; ?></b> </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;State.: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php //echo $v->state; ?></b> </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;LGA.: </td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo $v->name; ?></b> </td>
+                </tr>
+            </table>
+            <?php } ?>
+        </div>
+        <div id="lB" class="tab-pane">
+            
+              <?php  echo $this->action('vehiclecharges', 'charges', 'default', array('id' => $this->id)); ?>
+            </div>
+  
+</div>
+

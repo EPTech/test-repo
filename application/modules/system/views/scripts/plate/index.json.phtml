@@ -1,0 +1,43 @@
+
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->pid . '"/>';
+    $row[] = $item->plateno;
+    $row[] = $item->category;
+    $row[] = $item->name;
+     $status = ($item->status == 0) ? "Unassigned" : "Assigned"; 
+     $row[] = $status;
+     $operator = $item->surname.' '.$item->firstname;
+     if($item->mlo_name != "") { $operator.= "(".$item->mlo_name." )"; }
+     $row[] = $operator;                        
+    $row[] = $item->name;
+    $mloText = "";
+
+    if ($item->mlo_name != "") {
+        $mloText .= "( " . $item->mlo_name . " ) ";
+    }
+
+  $row[] = '<div class="btn-group">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    Action
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                <li> <a class="" href="/system/mla/edit/id/' . $item->pid . '">Edit</a></li>
+                                                <li><a class="removeItem" href="/system/mla/delete/id/' . $item->pid . '">Delete</a></li>
+                                                    <li><a title="MLO Information" class="ajax" href="/system/mlos/view/id/' . $item->pid . '">View Mlo</a></li>
+                                                  </ul>
+      </div>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

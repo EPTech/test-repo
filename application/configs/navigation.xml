@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <home>
+            <label>Dashboard</label>
+            <uri>/</uri>
+            <pages>
+                <profiles>
+                    <label>Profiles</label>
+                    <module>default</module>
+                    <controller>profiles</controller>
+                    <action>index</action>
+                    <reset_params>0</reset_params>
+                    <pages>
+                        <profile>
+                            <label>Profile</label>
+                            <module>default</module>
+                            <controller>profiles</controller>
+                            <action>view</action>
+                            <reset_params>0</reset_params>
+                            <pages>
+                                <vehicledetails>
+                                    <label>Vehicle details</label>
+                                    <module>default</module>
+                                    <controller>vehicles</controller>
+                                    <action>view</action>
+                                    <reset_params>0</reset_params>
+                                </vehicledetails>
+                            </pages>
+                        </profile>
+                    </pages>
+                </profiles>
+                <system>
+                    <label>System</label>
+                    <module>system</module>
+                    <controller>index</controller>
+                    <action>index</action>
+                </system>
+               
+                <remissions>
+                    <label>Remissions</label>
+                    <module>default</module>
+                    <controller>remissions</controller>
+                    <action>index</action>
+                </remissions>
+                <reports>
+                    <label>Reports</label>
+                    <module>default</module>
+                    <controller>reports</controller>
+                    <action>index</action>
+                    <reset_params>0</reset_params>
+                    <pages>
+                        <wdsreport>
+                            <label>Wds report</label>
+                            <module>default</module>
+                            <controller>reports</controller>
+                            <action>wds</action>
+                        </wdsreport>
+                        <revenuereport>
+                            <label>Revenue report</label>
+                            <module>default</module>
+                            <controller>reports</controller>
+                            <action>revenue</action>
+                        </revenuereport>
+                    </pages>
+                </reports>
+            </pages>
+        </home>
+    </nav>
+</configdata>

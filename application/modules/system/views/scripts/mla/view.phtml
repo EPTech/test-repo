@@ -1,0 +1,49 @@
+<!-- Tab -->
+<?php if ($this->mla !== null): ?>
+
+    <div>
+        <h5>Name </h5>
+        <p><?php echo $this->mla->mla_lastname . ' ' . $this->mla->mla_firstname; ?></p>
+    </div>
+    <?php if ($this->mla->mlo_name != "" and $this->mla->mlo_state_name != "" and $this->mla->mlo_lga_name != ""): ?>
+        <div>
+            <h5>MLO (Motor Licensing office) </h5>
+            <p><?php echo $this->mla->mlo_name . ' ( ' . $this->mla->mlo_state_name . " " . $this->mla->mlo_lga_name . " )"; ?></p>
+        </div>
+    <?php endif; ?>
+    <div>
+        <h5>Gender </h5>
+        <?php $gender = ($this->mla == 'm') ? "Male" : "Female"; ?>
+        <p><?php echo $gender; ?></p>
+    </div>
+    <div>
+        <h5>Role </h5>
+        <p><?php echo $this->mla->role_name; ?></p>
+    </div>
+    <div>
+        <h5>Mobile</h5>
+        <p><?php echo $this->mla->mla_mobile_phone; ?></p>
+    </div>
+    <div>
+        <h5>State</h5>
+        <p><?php echo $this->mla->state_name; ?></p>
+    </div>
+    <div>
+        <h5>Lga</h5>
+        <p><?php echo $this->mla->name; ?></p>
+    </div>
+
+    <div>
+        <h5>Last login </h5>
+        <p><?php echo date("jS M Y, h:i:s A", strtotime($this->mla->last_login)); ?></p>
+    </div>
+    <div>
+        <h5>Created </h5>
+        <p><?php echo date("jS M Y, h:i:s A", strtotime($this->mla->created)); ?></p>
+    </div>
+
+<?php else: ?>
+    <h4 class="black">No record</h4>
+    <p>No record</p>
+<?php endif; ?>
+          

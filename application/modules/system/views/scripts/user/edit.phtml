@@ -1,0 +1,18 @@
+<?php
+$this->headLink()->prependStylesheet('/css/redmond/jquery-ui-1.8.19.custom.css');
+$this->headLink()->prependStylesheet('/css/jquery.jscrollpane.css');
+$this->headLink()->prependStylesheet('/css/splitter.css');
+$this->headScript()->appendFile($this->baseUrl('/js/jquery-1.7.1.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/jquery-ui-1.8.18.custom.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/jquery.jscrollpane.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/document_ready.js'));
+$this->headLink()->prependStylesheet('/css/config.css');
+?>
+<?php $this->headScript()->appendFile($this->baseUrl('/twit/assets/js/bootstrap-alert.js')); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/js/init_bootstrap.js')); ?>
+
+
+
+<h3> Edit Account Details</h3>
+
+<?= $this->userForm; ?>

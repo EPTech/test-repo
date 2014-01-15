@@ -1,0 +1,5 @@
+
+    <i class="icon-th"></i> <b>MLO :</b> <?php if($this->mlo !== null){ echo $this->mlo->bearer_lname.' '.$this->mlo->bearer_fname; }?> <br/>
+   <i class="icon-th-list"></i> <b>Supercard No:</b> <?php if($this->mlo !== null){ echo $this->mlo->scardno; } ?><br/>
+    <i class="icon-briefcase"></i> <b>Card Balance</b> <?php if($this->mlo !== null){  echo number_format($this->mlo->creditbalance,2);    } ?>   
+

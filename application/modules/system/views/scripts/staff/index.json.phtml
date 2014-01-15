@@ -1,0 +1,27 @@
+
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->staff_id . '"/>';
+    $row[] = $item->surname.' '.$item->firstname;
+    $row[] = $item->staff_username;
+    $status = ($item->status == 1) ? "Active" : "blocked";
+    $row[] = $status;
+    $row[] = $item->role_name;
+    $row[] = $item->mobile;
+    $row[] = $item->sex;
+    $row[] = $item->state_name;
+    $row[] = $item->name;
+    $row[] = '<a href="/system/staff/edit/id/' . $item->staff_id . '">Edit</a>&nbsp;&nbsp;<a class="removeItem" href="/system/staff/delete/id/' . $item->staff_id . '">Delete</a>&nbsp;&nbsp;';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

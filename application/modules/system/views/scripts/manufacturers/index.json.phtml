@@ -1,0 +1,18 @@
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->id . '"/>';
+    $row[] = $item->manufacturer;
+    $row[] = '<a href="/system/manufacturers/edit/id/' . $item->id . '">Edit</a>&nbsp;&nbsp;<a class="removeItem" href="/system/manufacturers/delete/id/' . $item->id . '">Delete</a>&nbsp;&nbsp;';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

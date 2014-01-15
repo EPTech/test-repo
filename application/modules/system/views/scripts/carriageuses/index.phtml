@@ -1,0 +1,174 @@
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+<script type="text/javascript">
+    $(function(){
+        var oTable = $('table#datatable').dataTable({
+            "sDom": '<T>tir<p>',
+            'iDisplayLength':<?php echo $this->items->getDefaultDisplayLength(); ?>,
+            'iDeferLoading':<?php echo $this->items->getTotal(); ?>,
+            'bProcessing':true,
+            'bServerSide':true,
+            'sAjaxSource':'<?php echo $this->baseUrl('/system/carriageuses/index/format/json'); ?>',
+            'aoColumnDefs' : [
+                {'bSortable': false, 'aTargets': [0]}
+            ],
+           
+            'fnServerParams': function(aoData){
+                var sSearch = $('#table-search2').val();
+                aoData.push(  {
+                    "name": "sSearch", 
+                    "value":  sSearch
+                } );
+               
+                
+                return aoData;
+            }            
+        })    
+        $( "#table-search2" ).keyup( function () {
+            oTable.fnDraw();
+        } );
+       
+        
+        
+        
+        $("#resetFilter").click(function(e){
+            e.preventDefault();
+            $("#table-search").val("");
+            $("#order-status").val("");
+            oTable.fnDraw();
+        })
+        
+        $("#resetDateranges").click(function(e){
+            e.preventDefault();
+            $("#order-date").val("");
+            $("#end-order-date").val("");
+            oTable.fnDraw();
+        })
+        
+        
+        $('input.check-ctrl').live('click', function(e){
+            if($(this).is(":checked")){
+                $('.check-item').attr("checked",true);
+            }
+            else{
+                $('.check-item').attr("checked",false);
+            }
+        }) ;
+    
+        $('input.check-item').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl').attr("checked",false);
+            }
+        }) ;
+ 
+        //click button
+        $('a.removeItem').live('click', function(e){
+            e.preventDefault();
+            var  url = $(this).attr('href');
+            if(confirm("do you want to remove this Item ?")){
+                window.location.href = url;
+            }
+        }) ;  
+        
+        //group actions
+        //delete single item
+        $('#delete-all').live('click', function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("input.check-item").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            
+            if(checkedInputs == 0){
+                alert("check at least one row")
+            }
+            else {
+                if(confirm("are you sure you want to remove all ?")){
+                    $('form#itemList').submit();
+                }
+            }
+        }) ;  
+        
+        $('input#sub-btn').click(function(e){
+            //  alert('here');
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("form#group-id input").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row to proceed")
+            }
+            else {
+                // alert('checked is '+checkedInputs)
+                $('form#group-id').submit();
+            }
+     
+        }) ;  
+
+
+    });
+</script>
+<style type="text/css">
+    form#searchbox {
+        margin: 0 0 5px 0;
+        display: inline-block;
+
+    }
+</style>
+<section id="content">
+    <div class="container marg-top">
+        <div class="row-fluid">
+            <!-- Tab -->
+            <div class="page">  
+                <h3><i classs="icon-user"></i> <?php echo $this->itemName; ?>(s)</h3>
+                <?php if ($this->items->fetchAll()->count() == 0) : ?>
+                    <div class="alert-info">There are no <?php echo $this->itemName; ?>s currently set up </div> <br/>
+                    <div class="alert-info">Click <a class="btn" href="/system/carriageuses/add"><b>Here</b></a> to set up  a new <?php echo $this->itemName; ?></div>
+                <?php else : ?>
+                    <div>
+                        <a  href="/system/carriageuses/add" class="btn" title="new carriage usage">New <?php echo $this->itemName; ?></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" id="delete-all" class="btn">Remove selected</a>
+                    </div>
+                    <?php $this->title = $this->itemName; ?>
+                    <br/>
+                    <div id="searchId" >
+                        <div id="searchclass2">
+                            <form id="searchbox2" action="">
+                                <input name="table-search" id="table-search2" type="text" placeholder="Search here">
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <form id="itemList" action="/system/carriageuses/deleteall/" method="post">
+                        <table id="datatable" class="table table-striped table-bordered table-condensed" >
+                            <thead>
+                                <tr>
+                                    <th><a class="tblCaption" href="#"><input type="checkbox" name="checkctrl" class="check-ctrl" /></th>
+                                    <th><a class="tblCaption" href="#"><?php echo 'Carriage usage'; ?></a></th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($this->items->fetchAll() as $item) { ?>
+                                    <tr>
+                                        <td><input type="checkbox" name="itemid[]" class="check-item" value="<?php echo $item->id; ?>"/></td>
+                                        <td><?php echo $item->usage; ?></td>
+                                        <td>&nbsp;<a  href="/system/carriageuses/edit/id/<?php echo $item->id; ?>">Edit</a>&nbsp;&nbsp;<a class="removeItem" href="/system/carriageuses/delete/id/<?php echo $item->id; ?>">Delete</a>&nbsp;&nbsp;</td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+

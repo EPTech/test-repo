@@ -1,0 +1,22 @@
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+   // $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->mvregno . '"/>';
+    $row[] = $item->manufacturer;
+    $row[] = $item->vehicle_model;
+    $row[] = $item->vehicle_engine_num;
+    $row[] = $item->vehicle_color;
+    $row[] = $item->vehicle_type;
+    $row[] = '<a href="/default/profile/view/id/' . $item->vehicle_id . '">View</a>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

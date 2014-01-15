@@ -1,0 +1,310 @@
+<?php ob_start(); session_start(); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>PRINT IRC</title>
+</head>
+<style type="text/css" media="all">
+td.rightcolum { }
+table { width: 100%; }
+div.spacer {  }
+div.rightcolumn {  }
+.insurecontentagree{
+	font-size: 11px;
+	font-weight:bold;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+td.add { font-size: 9px; }
+table.insurecontent 
+{ 
+	
+	border-collapse: collapse;	
+	text-align: left;
+	font-size: 12px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding: 20px;
+}
+table.insurecontent  td {  }
+.insureleft { padding-left: 10px ; padding-top: 10px ; }
+.lbl { font-weight: bold; }
+.footnote { font-size:9px; }
+.head
+{
+	font-size: 12px;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-weight:bold;
+}
+.contentleft, .contentright { float: left; }
+.mainbody { overflow: hidden; }
+.contentleft { padding-right: 20px; }
+.contentright 
+{ 
+border-left: 1px solid #000;
+padding-left: 20px;
+
+}
+</style>
+<body>
+<?php
+include 'includes/prlFunctions.php';
+include 'scripts.php';
+db_connect();
+$VIN = $_GET['VIN'];
+//echo "select * from vehirc where vin = '$VIN'".'<br>';
+$result = mysql_query("select * from vehirc where vin = '$VIN'");
+$row = mysql_fetch_array($result);
+?>
+
+<!-- content frame -->
+<table>
+<tr>
+<td>
+<div style="display:none">
+<table>
+
+<tr>
+<td colspan="5">
+<center><img src="images/image001.jpg" title="logo" /></center>
+</td>
+</tr>
+<tr>
+<td class="head add" colspan="5">Plot 281, Ajose Adeogun Street, Victoria Island,Lagos,Nigeria. Tel:2623927, 2623929 Fax:2623928</td>
+</tr>
+  <tr>
+    <td colspan="5" class="head"> <CENTER>MOTOR VEHICLES (THIRD PARTY INSURANCE) ORDINANCE, ACT, 1945 (NIGERIA)</CENTER></td>
+  </tr>
+  <tr>
+    <td colspan="5" class="head"> <CENTER>CERTIFICATE OF INSURANCE</CENTER></td>
+  </tr>
+  </table>
+  </div>
+  <table class="insurecontent">
+  <tr>
+    <td class="insuretop insureleft">&nbsp;<div style="display:none"><span class="lbl">Certificate No:</span>&nbsp;</div><br/><br/><br/><br/><br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;"><?php echo $row['mvinsureno']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="display:none"><span class="lbl">Policy No:</span></div>&nbsp;<?php echo $row['irc']; ?></td>
+    <td >&nbsp;</td>
+    
+   
+    
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Index mark and registration number of vehicle:</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:4px;"><?php echo getThisFromForValue ('plateno', 'vehpn', 'vin', "'".$VIN."'"); ?></span></td>
+    <td>&nbsp;</td>
+  
+  
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Name of Policy holder:</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:11px;"><?php echo getThisFromForValue ('lastname', 'vehicleowner', 'mvregno', "'".$_SESSION['mvreg']."'").'     '.getThisFromForValue ('firstname', 'vehicleowner', mvregno, "'".$_SESSION['mvreg']."'"); ?></span></td>
+    <td>&nbsp;</td>
+   
+   
+  </tr>
+
+  <tr>
+    <td class="insureleft"><div style="display:none"><span class="lbl">Effective date of commencement of insurance <br/>for the purposes of the Ordinance(s)</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:15px;"><?php echo $row['ircdate']; ?></span></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><div style="display:none"><span class="lbl">Date of expiry of insurance</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:10px;"><?php echo $row['ircexpiry']; ?></span></td>
+    <td>&nbsp;</td>
+  
+ 
+  </tr>
+ 
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Persons or classes of persons entitled to drive*</div></span></td>
+    <td>&nbsp;</td>
+   
+   
+  </tr>
+  <tr>
+    <td class="footnote insureleft" style="margin:0; padding:0"><br/><div>&nbsp;(a)The Policyholder&nbsp;(b)Any other person provided he is in the policy-holders employ<br/>and is driving on his order or permission provided that the person driving is permitted<br/> in accordance with licensing or other laws or regulations to drive the motor vehicle or has <br/>been so permitted and is not disqualified by other of a Court of Law or by reason of any enactment<br/>or regulation in that behalf from driving such Motor Vehicle</div></td>
+    <td>&nbsp;</td>
+    
+    
+  </tr>
+  <tr>
+    <td  class="insureleft" ><div style="display:none"><span class="lbl">Limitations to use*</span></div></td>
+    <td>&nbsp;</td>
+   
+  </tr>
+ 
+  <tr>
+    <td class="insureleft" style="margin-left:0; padding-left:0;"><br/><br/>Use for carriage of passenger or goods in connection with the <br/>Policyholder's business.&nbsp;Use for social domestic and pleasure purpose</td>
+    <td>&nbsp;</td>
+  
+  
+  </tr>
+ 
+  <tr>
+    <td class="insureleft">&nbsp;<div style="display:none"><span class="footnote">The policy does not cover use for hire or for racing pace-making reliability</span><br/><span class="footnote">trial speed testing or use for any purpose in connection with the motor Trade.</span></div></td>
+    <td>&nbsp;</td>
+   
+  
+  </tr>
+ 
+  <tr>
+    <td class="insureleft">&nbsp;*<div style="display:none">Limitations rendered inoperative by the provisions of the motor <br/>vehicles(Third Party insurance) Ordinance 1945(Nigeria)</div></td>
+    <td>&nbsp;</td>
+    
+  
+  </tr>
+  
+ 
+</table>
+<div style="display:none">
+<table>
+ <tr>
+  <td colspan="5" class="insurecontentagree">
+  I/WE HEREBY CERTIFY that the Policy to which this certificate relates is issued in accordance <br/>with the
+  provisions of the Motor Vehicles (Third Party Insurance)Ordinance 1945(Nigeria)
+  <br />
+  <center>STANDARD ALLIANCE INSURANCE PLC.</center>
+  <center>(Authorized Insurers)</center>
+  </td>
+  </tr>
+  <tr>
+  <td colspan="5" class="insurecontent" style="overflow:hidden;">
+  <div style="width:100px; float:
+  left;" align="left">Examined:&nbsp;&nbsp;.................
+  </div>
+   <div style="width:250px; float:right;" align="right">Managing director:&nbsp;&nbsp;.................
+   </div>
+  </td>
+  </tr>
+</table>
+</div>
+</td>
+<td width="180">
+</td>
+<td class="rightcolumn">
+<div class="rightcolumn" style="position: absolute;">
+<div style="display:none">
+<table>
+
+<tr>
+<td colspan="5">
+<center><img src="images/image001.jpg" title="logo" /></center>
+</td>
+</tr>
+<tr>
+<td class="head add" colspan="5">Plot 281, Ajose Adeogun Street, Victoria Island,Lagos,Nigeria. Tel:2623927, 2623929 Fax:2623928</td>
+</tr>
+  <tr>
+    <td colspan="5" class="head"> <CENTER>MOTOR VEHICLES (THIRD PARTY INSURANCE) ORDINANCE, ACT, 1945 (NIGERIA)</CENTER></td>
+  </tr>
+  <tr>
+    <td colspan="5" class="head"> <CENTER>CERTIFICATE OF INSURANCE</CENTER></td>
+  </tr>
+  </table>
+  </div>
+  <table class="insurecontent">
+  <tr>
+    <td class="insuretop insureleft">&nbsp;<div style="display:none"><span class="lbl">Certificate No:</span>&nbsp;</div><br/><br/><br/><br/><br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block; padding-top:15px;"><?php echo $row['mvinsureno']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="display:none"><span class="lbl">Policy No:</span></div>&nbsp;<?php echo $row['irc']; ?></td>
+    <td >&nbsp;</td>
+    
+   
+    
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Index mark and registration number of vehicle:</div></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:4px;"><?php echo getThisFromForValue ('plateno', 'vehpn', 'vin', "'".$VIN."'"); ?></span></td>
+    <td>&nbsp;</td>
+  
+  
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Name of Policy holder:</div></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:11px;"><?php echo getThisFromForValue ('lastname', 'vehicleowner', 'mvregno', "'".$_SESSION['mvreg']."'").'     '.getThisFromForValue ('firstname', 'vehicleowner', mvregno, "'".$_SESSION['mvreg']."'"); ?></span></td>
+    <td>&nbsp;</td>
+   
+   
+  </tr>
+
+  <tr>
+    <td class="insureleft"><div style="display:none"><span class="lbl">Effective date of commencement of insurance <br/>for the purposes of the Ordinance(s)</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:15px;"><?php echo $row['ircdate']; ?></span></td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td class="insureleft"><div style="display:none"><span class="lbl">Date of expiry of insurance</span></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding-top:10px;"><?php echo $row['ircexpiry']; ?></span></td>
+    <td>&nbsp;</td>
+  
+ 
+  </tr>
+ 
+  <tr>
+    <td class="insureleft"><span class="lbl"><div style="display:none">Persons or classes of persons entitled to drive*</div></span></td>
+    <td>&nbsp;</td>
+   
+   
+  </tr>
+  <tr>
+    <td class="footnote insureleft"><br/><div>&nbsp;(a)The Policyholder&nbsp;(b)Any other person provided he is in the policy-holders employ<br/>and is driving on his order or permission provided that the person driving is permitted<br/> in accordance with licensing or other laws or regulations to drive the motor vehicle or has <br/>been so permitted and is not disqualified by other of a Court of Law or by reason of any enactment<br/>or regulation in that behalf from driving such Motor Vehicle</div></td>
+    <td>&nbsp;</td>
+    
+    
+  </tr>
+  <tr>
+    <td class="insureleft" ><div style="display:none"><span class="lbl">Limitations to use*</span></div></td>
+    <td>&nbsp;</td>
+   
+  </tr>
+ 
+  <tr>
+    <td class="insureleft"><br/><br/>,<br/>Use for carriage of passenger or goods in connection with the <br/>Policyholder's businessUse for social domestic and pleasure purpose</td>
+    <td>&nbsp;</td>
+  
+  
+  </tr>
+ 
+  <tr>
+    <td class="insureleft">&nbsp;<div style="display:none"><span class="footnote">The policy does not cover use for hire or for racing pace-making reliability</span><br/><span class="footnote">trial speed testing or use for any purpose in connection with the motor Trade.</span></div></td>
+    <td>&nbsp;</td>
+   
+  
+  </tr>
+ 
+  <tr>
+    <td class="insureleft">&nbsp;*<div style="display:none">Limitations rendered inoperative by the provisions of the motor <br/>vehicles(Third Party insurance) Ordinance 1945(Nigeria)</div></td>
+    <td>&nbsp;</td>
+    
+  
+  </tr>
+  
+ 
+</table>
+<div style="display:none">
+<table>
+ <tr>
+  <td colspan="5" class="insurecontentagree">
+  I/WE HEREBY CERTIFY that the Policy to which this certificate relates is issued in accordance <br/>with the
+  provisions of the Motor Vehicles (Third Party Insurance)Ordinance 1945(Nigeria)
+  <br />
+  <center>STANDARD ALLIANCE INSURANCE PLC.</center>
+  <center>(Authorized Insurers)</center>
+  </td>
+  </tr>
+  <tr>
+  <td colspan="5" class="insurecontent" style="overflow:hidden;">
+  <div style="width:100px; float:
+  left;" align="left">Examined:&nbsp;&nbsp;.................
+  </div>
+   <div style="width:250px; float:right;" align="right">Managing director:&nbsp;&nbsp;.................
+   </div>
+  </td>
+  </tr>
+</table>
+</div>
+</div>
+  </td>
+  </tr>
+</table>
+
+
+</body>
+</html>
+<?php ob_end_flush(); ?>

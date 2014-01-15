@@ -1,0 +1,16 @@
+<?php $this->headLink()->prependStylesheet('/resources/css/config.css'); ?>
+<?php $this->headLink()->prependStylesheet('/resources/css/paginate.css'); ?>
+<?php $this->headLink()->prependStylesheet('/resources/css/info.css'); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/resources/vendors/jquery/js/jquery-1.7.2.min.js')); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/resources/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+
+<section id="content">
+    <div class="container marg-top">
+        <div class="row-fluid">
+            <!-- Tab -->
+            <div class="page">       <h4 class="black"><i class="icon-user"></i> Update Engine category</h4>
+        <?php echo $this->edititem; ?>
+        </div>
+    </div>
+</div>
+</section>

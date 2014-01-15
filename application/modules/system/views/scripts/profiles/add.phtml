@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    $(function(){
+        
+        $("#state").live('change',function(e){
+            e.preventDefault();
+        
+            var currentState = $("#state").val();
+            if(currentState == ""){
+         
+            }else{
+                $.ajax({
+                    type : "POST",
+                    data : {
+                        state : currentState
+                    },
+                    dataType : 'json',
+                    url : "/default/profiles/states/format/json",
+                    timeout : 60000,
+                    beforeSend : function(){
+                        //append ajax processing
+                        $("<option >")
+                        .text("Please wait ...")
+                        .attr("selected",true)
+                        .attr("id", 'ajaxloader')
+                        .appendTo("#state");
+                        
+                          $("<option >")
+                        .text("Fetching options ...")
+                        .attr("selected",true)
+                        .attr("id", 'lgaloader')
+                        .appendTo("#lga");
+                    },
+                    error : function(){
+                    
+                    },
+                    success : function(data){
+                       $("#ajaxloader").remove();
+                        $("#lgaloader").remove();
+                        
+                       $("#state").val(currentState);
+                       
+                       $("#lga").empty();
+                       $("<option />").text("Select").val("").appendTo("#lga");
+                        
+                       $.each(data.ret, function(i,v){
+                           $("<option />").text(v.name).val(v.id).appendTo("#lga");
+                       });
+                       
+                    },
+                    complete : function(){
+         
+                    }
+                });  
+            }
+        })
+    
+    });
+</script>
+
+<h4>Add Biodata </h4>
+<hr />
+ <?php echo $this->additem; ?>

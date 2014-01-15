@@ -1,0 +1,13 @@
+<div class="row gutter">
+    <div class="container offset2">
+        <i class="icon-th"></i> <b>Customer Name :</b> <?php if ($this->customer !== null) {
+    echo $this->customer->lastname . ' ' . $this->customer->firstname;
+} ?> 
+        <i class="icon-th-list"></i> <b>Mvreg No:</b> <?php if ($this->customer !== null) {
+    echo $this->customer->mvregno;
+} ?>
+        <i class="icon-briefcase"></i> <b>Card Balance</b> <?php if ($this->mvregcard !== null) {
+    echo $this->mvregcard->creditbalance;
+} ?>   
+    </div>
+</div>

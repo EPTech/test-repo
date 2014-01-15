@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- include the partial  _template -->
+
+    <?php //echo $this->render("/partials/_shared/_template/header.phtml"); ?> 
+    <body class="login-layout">
+        <div class="main-container container-fluid">
+            <div class="main-content">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <?php echo $this->layout()->content; ?>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!--/.span-->
+                </div><!--/.row-fluid-->
+            </div>
+        </div><!--/.main-container-->
+        <?php //echo $this->render("/partials/_shared/_template/footer.phtml"); ?>
+    </body>
+</html>

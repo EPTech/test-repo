@@ -1,0 +1,43 @@
+<!-- Tab -->
+<?php if ($this->mlo !== null): ?>
+    <div>
+        <h5>Name </h5>
+        <p><?php echo $this->mlo->mlo_name; ?></p>
+    </div>
+
+    <div>
+        <h5>State</h5>
+        <p><?php echo $this->mlo->state_name; ?></p>
+    </div>
+
+    <div>
+        <h5>LGA </h5>
+        <p><?php echo $this->mlo->name; ?></p>
+    </div>
+    <div>
+        <h5>Phone</h5>
+        <p><?php echo $this->mlo->phone; ?></p>
+    </div>
+    <div>
+        <h5>Email</h5>
+        <p><?php echo $this->mlo->email; ?></p>
+    </div>
+    <div>
+        <h5>Address</h5>
+        <p><?php echo $this->mlo->address; ?></p>
+    </div>
+
+    <div>
+        <h5>Last login </h5>
+        <p><?php echo date("jS M Y, h:i:s A", strtotime($this->mlo->last_login)); ?></p>
+    </div>
+    <div>
+        <h5>Created </h5>
+        <p><?php echo date("jS M Y, h:i:s A", strtotime($this->mlo->created)); ?></p>
+    </div>
+
+<?php else: ?>
+
+    <p>No record</p>
+<?php endif; ?>
+

@@ -1,0 +1,12 @@
+<?php
+$this->headLink()->prependStylesheet('/css/redmond/jquery-ui-1.8.19.custom.css');
+$this->headLink()->prependStylesheet('/css/jquery.jscrollpane.css');
+$this->headLink()->prependStylesheet('/css/splitter.css');
+$this->headScript()->appendFile($this->baseUrl('/js/jquery-1.7.1.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/jquery-ui-1.8.18.custom.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/jquery.jscrollpane.min.js'));
+$this->headScript()->appendFile($this->baseUrl('/js/document_ready.js'));
+//echo $this->headScript();
+?>
+<h3> Add new user</h3>
+<?= $this->registerForm; ?>

@@ -1,0 +1,21 @@
+
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->role_id . '"/>';
+    $row[] = $item->role_name;
+    $roleStatus = ($item->role_enabled == 1) ? "Active" : "disabled" ;
+    $row[] = $roleStatus;
+    $row[] = '<a href="/system/roles/edit/id/' . $item->role_id . '">Edit</a>&nbsp;&nbsp;<a class="removeItem" href="/system/vehicletypes/delete/id/' . $item->role_id . '">Delete</a>&nbsp;&nbsp;<a class="" href="/system/permissions/index/role/' . $item->role_id . '">Change privileges</a>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

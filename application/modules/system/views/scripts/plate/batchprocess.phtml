@@ -1,0 +1,85 @@
+<?php $this->headLink()->appendStylesheet('/vendors/jquery/css/ui-lightness/jquery-ui-1.8.21.custom.css'); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/jquery/js/jquery-ui-1.8.21.custom.min.js')); ?>
+<script type="text/javascript">
+    $(function(){
+
+        $("#first_plateno").parent().parent().hide();
+        $("#no_plates").parent().parent().hide();
+      
+      
+        $("#multiple_plates, #plates_serial").click(function(){
+            if($("#multiple_plates").is(":checked") & $("#plates_serial").is(":checked")){
+                $("#first_plateno").parent().parent().show();
+                $("#no_plates").parent().parent().show();
+                $("#plateno").parent().parent().hide();
+      
+            }else {
+                $("#first_plateno").parent().parent().hide();
+                $("#no_plates").parent().parent().hide();
+                $("#plateno").parent().parent().show();
+            }
+        })
+        $("#dob").datepicker({
+            dateFormat : "yy-dd-mm"
+        });
+        
+        $("#state").live('change',function(e){
+            e.preventDefault();
+        
+            var currentState = $("#state").val();
+            if(currentState == ""){
+         
+            }else{
+                $.ajax({
+                    type : "POST",
+                    data : {
+                        state : currentState
+                    },
+                    dataType : 'json',
+                    url : "/default/profiles/states/format/json",
+                    timeout : 60000,
+                    beforeSend : function(){
+                        //append ajax processing
+                        $("<option >")
+                        .text("Please wait ...")
+                        .attr("selected",true)
+                        .attr("id", 'ajaxloader')
+                        .appendTo("#state");
+                        
+                        $("<option >")
+                        .text("Fetching options ...")
+                        .attr("selected",true)
+                        .attr("id", 'lgaloader')
+                        .appendTo("#lga");
+                    },
+                    error : function(){
+                    
+                    },
+                    success : function(data){
+                        $("#ajaxloader").remove();
+                        $("#lgaloader").remove();
+                        
+                        $("#state").val(currentState);
+                       
+                        $("#lga").empty();
+                        $("<option />").text("Select").val("").appendTo("#lga");
+                        
+                        $.each(data.ret, function(i,v){
+                            $("<option />").text(v.name).val(v.id).appendTo("#lga");
+                        });
+                       
+                    },
+                    complete : function(){
+         
+                    }
+                });  
+            }
+        })
+    
+    });
+</script>
+<!-- Tab -->
+<div class="page">       <h4 class="black"><i class="icon-tasks"></i> Batch process platenumber(s)</h4>
+    <?php echo $this->form; ?>
+</div>
+       

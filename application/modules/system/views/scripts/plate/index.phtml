@@ -1,0 +1,215 @@
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+<script type="text/javascript">
+    $(function(){
+        var oTable = $('table#datatable').dataTable({
+            "sDom": '<T>tir<p>',
+            'iDisplayLength':<?php echo $this->items->getDefaultDisplayLength(); ?>,
+            'iDeferLoading':<?php echo $this->items->getTotal(); ?>,
+            'bProcessing':true,
+            'bServerSide':true,
+            'sAjaxSource':'<?php echo $this->baseUrl('/system/plate/index/format/json'); ?>',
+            'aoColumnDefs' : [
+                {'bSortable': false, 'aTargets': [0]}
+            ],
+           
+            'fnServerParams': function(aoData){
+                var sSearch = $('#table-search2').val();
+                aoData.push(  {
+                    "name": "sSearch", 
+                    "value":  sSearch
+                } );
+               
+                
+                return aoData;
+            }            
+        })    
+        $( "#table-search2" ).keyup( function () {
+            oTable.fnDraw();
+        } );
+       
+        
+        
+        $('body').on('click', 'a.ajax', function(e){
+            e.preventDefault();
+
+            var title = $(this).attr('title');
+            var remote = $(this).attr('href');
+       
+            Layout.alert(title, remote, {width:'400px'});
+        });  
+
+        Layout = {};
+        Layout.alert = function (title, content, options){
+            $modalTitle = $('<b>').text(title);
+            $modalDismiss = $('<span class="close" data-dismiss="modal">').html('&times;');
+            $modal = $('<div class="modal">');
+            $modalHeader = $('<div class="modal-header">').append($modalTitle).append($modalDismiss);
+            $modalBody = $('<div class="modal-body">');//.append(content);
+            $modal.append($modalHeader)
+            .append($modalBody).modal({
+                remote: content
+            }).width(options.width)
+        
+            return;
+        }
+        
+        $("#resetFilter").click(function(e){
+            e.preventDefault();
+            $("#table-search").val("");
+            $("#order-status").val("");
+            oTable.fnDraw();
+        })
+        
+        $("#resetDateranges").click(function(e){
+            e.preventDefault();
+            $("#order-date").val("");
+            $("#end-order-date").val("");
+            oTable.fnDraw();
+        })
+        
+        
+        $('input.check-ctrl').live('click', function(e){
+            if($(this).is(":checked")){
+                $('.check-item').attr("checked",true);
+            }
+            else{
+                $('.check-item').attr("checked",false);
+            }
+        }) ;
+    
+        $('input.check-item').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl').attr("checked",false);
+            }
+        }) ;
+ 
+        //click button
+        $('a.removeItem').live('click', function(e){
+            e.preventDefault();
+            var  url = $(this).attr('href');
+            if(confirm("do you want to remove this Item ?")){
+                window.location.href = url;
+            }
+        }) ;  
+        
+        //group actions
+        //delete single item
+        $('#delete-all').live('click', function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("input.check-item").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            
+            if(checkedInputs == 0){
+                alert("select at least one row")
+            }
+            else {
+                if(confirm("are you sure you want to remove the selected item(s)?")){
+                    $('form#itemList').submit();
+                }
+            }
+        }) ;  
+        
+        $('input#sub-btn').click(function(e){
+            //  alert('here');
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("form#group-id input").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row to proceed")
+            }
+            else {
+                // alert('checked is '+checkedInputs)
+                $('form#group-id').submit();
+            }
+     
+        }) ;  
+
+
+    });
+</script>
+<style type="text/css">
+    form#searchbox {
+        margin: 0 0 5px 0;
+        display: inline-block;
+
+    }
+</style>
+
+<div class="page">  
+    <h3><i classs="icon-user"></i> <?php echo $this->itemName; ?>(s)</h3>
+    <?php if ($this->items->fetchAll()->count() == 0) : ?>
+        <div class="alert-info">There are no <?php echo $this->itemName; ?>s currently set up </div> <br/>
+        <div class="alert-info">Click <a class="btn" href="/system/plate/add"><b>Here</b></a> to set up  a new <?php echo $this->itemName; ?></div>
+    <?php else : ?>
+        <div>
+            <a  href="/system/plate/add" class="btn btn-small btn-inverse" title="new plate"><i class="icon-plus"></i> New <?php echo $this->itemName; ?></a>&nbsp;&nbsp;&nbsp;
+              <a  href="/system/plate/batchprocess" class="btn btn-small btn-yellow" title="batch process"><i class="icon-tasks"></i> Batch generation</a>&nbsp;&nbsp;&nbsp;
+
+            <a href="#" id="delete-all" class="btn btn-small btn-purple"><i class="icon-remove"></i> Remove selected</a>
+        </div>
+        <?php $this->title = $this->itemName; ?>
+        <br/>
+        <div id="searchId" >
+            <div id="searchclass2">
+                <form id="searchbox2" action="">
+                    <input name="table-search" id="table-search2" type="text" placeholder="Search here">
+                </form>
+            </div>
+        </div>
+
+
+        <form id="itemList" action="/system/mla/deleteall/" method="post">
+            <table id="datatable" class="table table-striped table-bordered table-condensed" >
+                <thead>
+                    <tr>
+                        <th><a class="tblCaption" href="#"><input type="checkbox" name="checkctrl" class="check-ctrl" /></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Platenumber'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Category'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'lga'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Status'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Operator'; ?></a></th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->items->fetchAll() as $item) { ?>
+                        <tr>
+                            <td><input type="checkbox" name="itemid[]" class="check-item" value="<?php echo $item->pid; ?>"/></td>
+                            <td><?php echo $item->plateno; ?></td>
+                            <td><?php echo $item->category; ?></td>
+                            <td><?php echo $item->name; ?></td>
+                            <?php $status = ($item->status == 0) ? "Unassigned" : "Assigned"; ?>
+                            <td><?php echo $status; ?></td>
+
+                            <td><?php $operator = $item->surname.' '.$item->firstname;
+                              if($item->mlo_name != "") { $operator.= "(".$item->mlo_name." )"; }
+                              echo $operator;
+                              ?></td>
+
+                            <td>&nbsp;<div class="btn-group">
+                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Action
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- dropdown menu links -->
+                                        <li><a class=""  href="/system/mla/edit/id/<?php echo $item->pid; ?>">Edit</a></li>
+                                        <li><a class="removeItem" href="/system/mla/delete/id/<?php echo $item->pid; ?>">Delete</a></li>
+                                    </ul>
+                                </div></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </form>
+    <?php endif; ?>
+</div>

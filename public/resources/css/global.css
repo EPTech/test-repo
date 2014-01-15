@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+
+#wideness{
+	width: 518px;
+	height: 100px;
+}
+#body #middle #right #innerBanner{
+}
+#body #middle #right #innerBanner #pageName{
+	padding: 14px 10px 10px 10px;
+}
+#body #middle #right #innerBanner #pageName .services{
+	font-size: 24px;
+	background: url(img/right-black.png) right center no-repeat;
+	padding-right: 26px;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+#body #middle #right #innerBanner #pageName #crumbs{
+	font-size: 11px;
+}
+#chatBg{
+	min-height: 125px;
+	background-color: #e6e6e6;
+}
+#chatBg #chat{
+	width: 250px;
+	background: url(img/onlineChat.gif) no-repeat right;
+	min-height: 125px;
+}
+#chatBg #chat .needHelp{
+	padding: 10px 0px 0px 10px;
+	letter-spacing: -0.1px;
+	word-spacing: -0.1px;
+	font-size: 16px;
+}
+#chatBg #chat .skypeChat{
+	padding: 0px 0px 10px 10px;
+	letter-spacing: -0.3px;
+	word-spacing: -0.2px;
+	font-size: 15.5px;
+}
+#chatBg #chat #onlineChat{
+	margin-left: 50px;
+}
+#chatBg #chat #clickHere{
+	width: 130px;
+	background-color: #262626;
+	border-right: 2px solid #fff;
+	border-top: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	min-height: 20px;
+	padding: 6px 18px 4px 0px;
+}
+#chatBg #chat #clickHere input[type=button]{
+	margin: 0;
+	border: none;
+	outline: none;
+	background-color: #262626;
+	background: url(img/right-arrow.png) no-repeat 105px center;
+	padding-right: 40px;
+	color: #FFF;
+	font-weight: bold;
+  -webkit-appearance: button;
+}
+
+
+/***************** Mobile Services Homepage *****************/
+.inlineAd{
+	margin-bottom: 15px;
+}
+
+ul#messages{
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,21 @@
+<?php
+
+class My_Form_Element_CKEditor extends Zend_Form_Element_Textarea{
+	
+    public function __construct($spec, $options = null)
+    {   
+        parent::__construct($spec, $options);
+        
+        //grab a reference to the view
+        $view = $this->getView();
+        
+        //include scripts and initialize the ckeditor
+        $view->headScript()->appendFile(
+        	'/ckeditor/ckeditor.js',
+        	'text/javascript'
+        );
+        
+        //give the textarea a class name that ckeditor recognises
+        $this->setAttrib('class', 'ckeditor');
+    }
+}

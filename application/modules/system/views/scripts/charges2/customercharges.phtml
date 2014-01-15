@@ -1,0 +1,195 @@
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+<script type="text/javascript">
+    $(function(){
+        var oTable3 = $('table#datatable3').dataTable({
+            "sDom": '<T>tir<p>',
+            'iDisplayLength':<?php echo $this->items->getDefaultDisplayLength(); ?>,
+            'iDeferLoading':<?php echo $this->items->getTotal(); ?>,
+            'bProcessing':true,
+            'bServerSide':true,
+            'sAjaxSource':'<?php echo $this->baseUrl('/default/charges/index/id/'.$this->id.'/format/json'); ?>',
+            'aoColumnDefs' : [
+                {'bSortable': false, 'aTargets': [0]}
+            ],
+           
+            'fnServerParams': function(aoData){
+                var sSearch = $('#table-search3').val();
+                aoData.push(  {
+                    "name": "sSearch", 
+                    "value":  sSearch
+                } );
+               
+                
+                return aoData;
+            }            
+        })    
+        $( "#table-search3" ).keyup( function () {
+            oTable3.fnDraw();
+        } );
+       
+        
+        
+        
+        $("#resetFilter").click(function(e){
+            e.preventDefault();
+            $("#table-search").val("");
+            $("#order-status").val("");
+            oTable3.fnDraw();
+        })
+        
+        $("#resetDateranges").click(function(e){
+            e.preventDefault();
+            $("#order-date").val("");
+            $("#end-order-date").val("");
+            oTable3.fnDraw();
+        })
+        
+        
+        $('input.check-ctrl3').live('click', function(e){
+            if($(this).is(":checked")){
+                $('.check-item3').attr("checked",true);
+            }
+            else{
+                $('.check-item3').attr("checked",false);
+            }
+        }) ;
+    
+        $('input.check-item3').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl3').attr("checked",false);
+            }
+        }) ;
+ 
+        //click button
+        $('a.removeItem3').live('click', function(e){
+            e.preventDefault();
+            var  url = $(this).attr('href');
+            if(confirm("do you want to remove this Items ?")){
+                window.location.href = url;
+            }
+        }) ;  
+        
+        //group actions
+        //delete single item
+        $('#delete-all').live('click', function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("input.check-item3").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row")
+            }
+            else {
+                if(confirm("are you sure you want to remove all ?")){
+                    $('form#itemList3').submit();
+                }
+            }
+        }) ;  
+        
+        $('input#sub-btn3').click(function(e){
+            //  alert('here');
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("form#group-id input3").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row to proceed")
+            }
+            else {
+                // alert('checked is '+checkedInputs)
+                $('form#group-id3').submit();
+            }
+     
+        }) ;  
+
+
+    });
+</script>
+<style type="text/css">
+    form#searchbox {
+        margin: 0 0 5px 0;
+        display: inline-block;
+
+    }
+</style>
+
+
+    <!-- Tab -->
+    <h3><i classs="icon-user"></i> Vehicle charge(s)</h3>
+    <?php if ($this->items->fetchAll()->count() == 0) : ?>
+        <div class="alert-info">There are no Charges for this vehicle </div> <br/>
+        <div class="alert-info">Click <a class="btn" href="/space/rooms/add"><b>Here</b></a> to add  a new charge</div>
+    <?php else : ?>
+        <div>
+            <a  href="/default/profile/add/id/<?php echo $this->id; ?>" class="btn" title="new charge">Renew selected</a>&nbsp;&nbsp;&nbsp;
+        </div>
+       
+        <br/>
+        <div id="searchId3" >
+            <div id="searchclass3">
+                <form id="searchbox3" action="">
+                    <input name="table-search" id="table-search3" type="text" placeholder="Search here">
+                </form>
+            </div>
+        </div>
+       <?php $messages = $this->flashMessenger('warning', '<li class="alert alert-%s">%s</li>'); ?>
+            <?php if ($messages): ?>
+                <ul class="messages">
+                    <?php echo $messages; ?>
+                </ul> 
+        <?php endif; ?>
+
+        <form id="itemList" action="/default/vehicles/deleteall/" method="post">
+            <table id="datatable3" class="table table-striped table-bordered table-condensed" >
+                <thead>
+                    <tr>
+                      <th> <input type="checkbox" name="checkctrl" class="check-ctrl" />  </th> 
+                        <th><a class="tblCaption" href="#"><?php echo 'Vehicle Model'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Charge Title'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Status'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Payment Amount'; ?></a></th>
+                        <th><a class="tblCaption" href="#"><?php echo 'Expiry date'; ?></a></th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->items->fetchAll() as $item) { ?>
+                    <?php
+                            $status = "";
+                            if($item->payment_expiry == ""){
+                                $status = "Expired";
+                                $stateCtrl = 0;
+                            }else if($item->payment_expiry != ""){
+                                $currentDate = strtotime(date("Y-d-m"));
+                                $expiryDate = strtotime($item->payment_expiry);
+                                if($expiryDate > $currentDate){
+                                    $status = "Expired";
+                                    $stateCtrl = 0;
+                                }else {
+                                    $status = "Active";
+                                    $stateCtrl = 1;
+                                }
+                            }
+                            ?>
+                        <tr>
+                            <?php $documentValue = $item->vehicle_id."P".$item->charge_id; ?>
+                                            <td><input type="checkbox" name="itemid[]" class="check-item" value="<?php echo $documentValue; ?>"/></td>
+                            <td><?php echo $item->vehicle_model; ?></td>
+                            <td><?php echo $item->charge_title; ?></td>
+                             <td><?php echo $status; ?></td>
+                            <td><?php echo $item->payment_amount; ?> </td>
+                            <td><?php echo $item->payment_expiry; ?> </td>
+                            <td>&nbsp;<a href="/default/profiles/view/id/<?php echo $item->vehicle_id; ?>/charge/<?php echo $item->charge_id; ?>">Renew</a>&nbsp;&nbsp;</td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </form>
+    <?php endif; ?>

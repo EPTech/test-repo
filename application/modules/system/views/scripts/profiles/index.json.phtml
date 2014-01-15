@@ -1,0 +1,22 @@
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+   // $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->mvregno . '"/>';
+    $row[] = $item->mvregno;
+    $row[] = $item->lastname;
+    $row[] = $item->firstname;
+    $row[] = $item->state_name;
+    $row[] = $item->lga_name;
+    $row[] = '<a href="/default/profiles/view/id/' . $item->mvregno . '">View</a>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

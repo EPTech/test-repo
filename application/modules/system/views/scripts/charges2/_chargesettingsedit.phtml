@@ -1,0 +1,17 @@
+<?php //var_dump($this->element);  exit;  ?>
+
+<table id="chargeSettings" class="table" >
+    <thead>
+        <tr>
+            <th><input type="checkbox" class="check-ctrl" /></th>
+            <th>Charge item</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach ($this->element->getSubForms() as $subForm): ?>
+            <?php echo $subForm; ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>

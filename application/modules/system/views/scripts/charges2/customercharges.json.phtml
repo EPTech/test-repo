@@ -1,0 +1,38 @@
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $status = "";
+    if ($item->payment_expiry == "") {
+        $status = "Expired";
+        $stateCtrl = 0;
+    } else if ($item->payment_expiry != "") {
+        $currentDate = strtotime(date("Y-d-m"));
+        $expiryDate = strtotime($item->payment_expiry);
+        if ($expiryDate > $currentDate) {
+            $status = "Expired";
+            $stateCtrl = 0;
+        } else {
+            $status = "Active";
+            $stateCtrl = 1;
+        }
+    }
+    $documentValue = $item->vehicle_id . "P" . $item->charge_id;
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $documentValue . '"/>';
+    $row[] = $item->vehicle_model;
+    $row[] = $item->charge_title;
+    $row[] = $status;
+    $row[] = $item->payment_amount;
+    $row[] = $item->payment_expiry;
+    $row[] = '<a href="/default/profiles/view/id/' . $item->vehicle_id . '/charge/' . $item->charge_id . '">Renew</a>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

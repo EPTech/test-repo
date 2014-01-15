@@ -1,0 +1,39 @@
+<?php
+
+$html = array();
+
+$iterator = new RecursiveIteratorIterator($this->container, RecursiveIteratorIterator::SELF_FIRST);
+$prevDepth = - 1;
+ $html [] = '<ul class="nav nav-list">' . "\n";
+foreach ($iterator as $page) {
+    $depth = $iterator->getDepth();
+    if($depth > 1) {
+        continue;
+    }
+    $isActive = $page->isActive(true);
+    if ($depth > $prevDepth) {
+      //  $html [] = '<ul class="nav nav-list">' . "\n";
+    } else if ($prevDepth > $depth) {
+        for ($i = $prevDepth; $i > $depth; $i--) {
+            $html [] = '</li>' . "\n";
+            // $html [] = '</ul>' . "\n";
+        }
+        $html [] = '    </li>' . "\n";
+    } else {
+        $html [] = '    </li>' . "\n";
+    }
+    if ($page->haspages()) {
+       // $liClass = $isActive ? ' class="active submenu"' : ' class="submenu"';
+        //continue;
+        $liClass = '';
+    } else {
+        $liClass = $isActive ? ' class="active"' : '';
+    }
+    $html [] = '<li' . $liClass . '>' . "\n";
+    $html [] = '<a href="' . $page->getHref() . '">' . $page->getLabel(). '</a>' . "\n";
+    $prevDepth = $depth;
+}
+
+$html [] = '</ul>' . "\n";
+echo join(PHP_EOL, $html);
+?>

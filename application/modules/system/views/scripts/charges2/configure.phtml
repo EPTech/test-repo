@@ -1,0 +1,10 @@
+<script>
+    $(function(){
+         var postStatus = '<?php echo $this->postStatus; ?>';
+       //alert(postStatus);
+       if(postStatus == 0){
+        $("#chargeSettings").css('display','none');
+       }
+    })
+</script>
+<?php echo $this->form; ?>

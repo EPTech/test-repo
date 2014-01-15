@@ -1,0 +1,76 @@
+<?php //$this->headLink()->prependStylesheet('/resources/css/config.css'); ?>
+<?php // $this->headLink()->prependStylesheet('/resources/css/paginate.css'); ?>
+<?php // $this->headLink()->prependStylesheet('/resources/css/info.css'); ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/jquery/js/jquery-1.7.2.min.js')); ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+<?php  $this->headLink()->appendStylesheet('/vendors/jquery/css/ui-lightness/jquery-ui-1.8.21.custom.css'); ?>
+    <?php $this->headScript()->appendFile($this->baseUrl('/vendors/jquery/js/jquery-ui-1.8.21.custom.min.js')); ?>
+
+<script type="text/javascript">
+    $(function(){
+        $("#birthdate").datepicker({
+            dateFormat : "yy-dd-mm"
+        });
+        
+        $("#state").live('change',function(e){
+            e.preventDefault();
+        
+            var currentState = $("#state").val();
+            if(currentState == ""){
+         
+            }else{
+                $.ajax({
+                    type : "POST",
+                    data : {
+                        state : currentState
+                    },
+                    dataType : 'json',
+                    url : "/default/profiles/states/format/json",
+                    timeout : 60000,
+                    beforeSend : function(){
+                        //append ajax processing
+                        $("<option >")
+                        .text("Please wait ...")
+                        .attr("selected",true)
+                        .attr("id", 'ajaxloader')
+                        .appendTo("#state");
+                        
+                          $("<option >")
+                        .text("Fetching options ...")
+                        .attr("selected",true)
+                        .attr("id", 'lgaloader')
+                        .appendTo("#lga");
+                    },
+                    error : function(){
+                    
+                    },
+                    success : function(data){
+                       $("#ajaxloader").remove();
+                        $("#lgaloader").remove();
+                        
+                       $("#state").val(currentState);
+                       
+                       $("#lga").empty();
+                       $("<option />").text("Select").val("").appendTo("#lga");
+                        
+                       $.each(data.ret, function(i,v){
+                           $("<option />").text(v.name).val(v.id).appendTo("#lga");
+                       });
+                       
+                    },
+                    complete : function(){
+         
+                    }
+                });  
+            }
+        })
+    
+    });
+</script>
+
+
+<h4>Edit Biodata </h4>
+<hr />
+
+   <?php echo $this->edititem; ?>
+    

@@ -1,0 +1,40 @@
+<?php //$this->headLink()->prependStylesheet('/resources/css/config.css');     ?>
+<?php ///$this->headLink()->prependStylesheet('/resources/css/paginate.css');     ?>
+<?php //$this->headLink()->prependStylesheet('/resources/css/info.css');     ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/jquery/js/jquery-1.7.2.min.js'));     ?>
+<?php //$this->headScript()->appendFile($this->baseUrl('/resources/vendors/DataTables/media/js/jquery.dataTables.js'));     ?>
+<br/>
+<h3 class="black"><i class="icon-user"></i> Customers Profile</h3>
+<?php echo $this->action('cardbalance', 'profiles', 'default', array('id' => $this->id)); ?>
+<div class="row" style="margin-top: 20px;">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#lA">Profile</a></li>
+            <li><a data-toggle="tab" href="#lB">Vehicles</a></li>
+            <li><a data-toggle="tab" href="#lC">Charges</a></li>
+            <li><a data-toggle="tab" href="#lD">Funding</a></li>
+        </ul>
+        <div class="tab-content" style="width: auto; overflow: auto;">
+            <div id="lA" class="tab-pane active">
+                <?php
+                // echo $this->additem; 
+                if ($this->customer === null) {
+                    echo $this->action('add', 'profiles', 'default', array('id' => $this->id));
+                } else {
+                    echo $this->action('edit', 'profiles', 'default', array('id' => $this->id));
+                }
+                ?>
+            </div>
+            <div id="lB" class="tab-pane">
+    <?php echo $this->action('vehicles', 'profiles', 'default', array('id' => $this->id)); ?>
+            </div>
+            <div id="lC" class="tab-pane">
+<?php echo $this->action('customercharges', 'charges', 'default', array('id' => $this->id)); ?>
+            </div>
+            <div id="lD" class="tab-pane">
+<?php echo $this->action('fund', 'profiles', 'default', array('id' => $this->id)); ?>
+            </div>
+        </div>
+    </div>
+</div>
+

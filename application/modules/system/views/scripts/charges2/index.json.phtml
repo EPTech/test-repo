@@ -1,0 +1,20 @@
+<?php
+
+$output = array(
+    "sEcho" => intval($_GET['sEcho']),
+    "iTotalRecords" => $this->items->getTotal(),
+    "iTotalDisplayRecords" => $this->items->getFilteredTotal(),
+    "aaData" => array(),
+);
+
+foreach ($this->items->fetchAll() as $item) {
+    $row = array();
+    $row[] = '<input type="checkbox" name="itemid[]" class="check-item" value="' . $item->charge_id . '"/>';
+    $row[] = $item->charge_title;
+    $row[] = $item->charge_entity;
+    $row[] = $item->charge_cycle_title;
+    $row[] = '<a href="/default/charges/edit/id/' . $item->charge_id . '">Edit</a>&nbsp;&nbsp;<a class="removeItem" href="/default/charges/delete/id/' . $item->charge_id . '">Delete</a>'.'&nbsp;&nbsp;<a  href="/default/charges/reconfigure/id/' . $item->charge_id . '">Settings</a>';
+    $output['aaData'][] = $row;
+}
+echo json_encode($output);
+?>

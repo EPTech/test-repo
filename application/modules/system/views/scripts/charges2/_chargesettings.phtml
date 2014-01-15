@@ -1,0 +1,117 @@
+<?php //var_dump($this->element);  exit;   ?>
+<script>
+    $(function(){
+      
+        $("#charge_id").change(function(){
+            var charge = $(this).val();
+            $.ajax({
+                type : "POST",
+                data : {
+                    charge : charge
+                },
+                dataType : 'json',
+                url : "/default/charges/charge/format/json",
+                timeout : 60000,
+                beforeSend : function(){
+                    //append ajax processing
+                    $("<option >")
+                    .text("Please wait ...")
+                    .attr("selected",true)
+                    .attr("id", 'chargeloader')
+                    .appendTo("#charge_id");
+                        
+                         
+                },
+                error : function(){
+                    alert("An error occured while making the request");
+                },
+                success : function(result){
+                    $("#chargeloader").remove();
+                       
+                    $("#charge_id").val(charge);
+                       
+                    if(result.status == 1){
+                        if(result.charge.charge_entity == "vehicle" & result.setup == 0){
+                            $("#chargeSettings").css('display','table');
+                        }
+                        else if(result.setup == 1){
+                            alert("This charge has been configured");
+                            $("#chargeSettings").css('display','none');
+                        }
+                        else {
+                            $("#chargeSettings").css('display','none');
+                        }
+                    }else {
+                         $("#chargeSettings").css('display','none');
+                        alert("Please select a valid charge");
+                    }
+                      
+                       
+                },
+                complete : function(){
+         
+                }
+            });  
+        });
+        
+        $("#sub").click(function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            var emptyElements = 0;
+            $(".checkbox").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                    var indexValue = $(this).prev().prev().val();
+                    var elementName = '#settings-'+indexValue+'-charge_amount';
+                    if($(elementName).val() == ""){
+                        alert("Please enter an amount for the checked item");
+                        $(elementName).focus();
+                        emptyElements += 1;
+                        //break out of the loop
+                        return false;
+                    }
+                    
+                }   
+            });
+            
+            if(emptyElements == 0 & checkedInputs > 1){
+                $("#chargeSettingForm").submit();
+            }
+            if(checkedInputs == 0 ){
+                alert("check at least one element");
+            }
+        })
+        
+        $('input.check-ctrl').live('click', function(e){
+            if($(this).is(":checked")){
+                $('.checkbox').attr("checked",true);
+            }
+            else{
+                $('.checkbox').attr("checked",false);
+            }
+        }) ;
+    
+        $('input.checkbox').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl').attr("checked",false);
+            }
+        }) ;
+ 
+    });
+</script>
+<table id="chargeSettings" class="table" >
+    <thead>
+        <tr>
+            <th><input type="checkbox" class="check-ctrl" /></th>
+            <th>Charge item</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach ($this->element->getSubForms() as $subForm): ?>
+            <?php echo $subForm; ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>

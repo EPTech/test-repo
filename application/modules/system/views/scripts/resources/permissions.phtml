@@ -1,0 +1,55 @@
+<?php $this->headScript()->appendFile($this->baseUrl('/js/jquery-1.7.1.min.js')); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/js/resources.js')); ?>
+
+
+<?php $this->title = "Resource Permissions"; ?>
+
+
+<a id="grant-all" href="#" class="btn btn-small btn-success"><i class="icon-ok"></i>  Grant Selected</a>&nbsp;&nbsp;&nbsp;
+<a id="deny-all" href="#" class="btn btn-small btn-warning"><i class="icon-remove"></i> Deny Selected</a>&nbsp;&nbsp;&nbsp;
+<a  href="/system/resources" class="btn btn-small btn-primary"><i class="icon-home"></i> Permissions</a>
+
+<div class="tab-content">
+    <div id="profile" class="tab-pane active">
+
+        <form id="inlineRow" action="" method="post">
+            <input type="hidden" name="resourceid" value="<?php echo $this->resource; ?>" />
+            <div class="row-fluid">
+                <em>Allow or Deny access to <strong><?php echo $this->resource; ?></strong> for respective roles</em>
+            </div>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox"  name="group-ctrl" class="group-id-ctrl" /></th>
+                        <th>Role</th>
+                        <th>Access status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->roles as $role) : ?>
+                        <tr>
+                            <td><input class="group-id" type="checkbox" name="roleid[]" value="<?php echo $role->role_id; ?>" /></td>
+                            <td><?php echo $role->role_name ?></td>
+                            <td>
+                                <?php if ($this->access[$role->role_id]): ?>
+                                    <span style=" display:block; height: 18px; width: 16px;   background-image: url(/css/images/activate.png); background-repeat: none;">&nbsp;</span>
+                                <?php else: ?>
+                                    <span style=" display:block; height: 18px; width: 16px;   background-image: url(/css/images/block.png); background-repeat: none;">&nbsp;</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if ($this->access[$role->role_id]): ?>
+                                    <a href="<?php echo $this->url(array('action' => 'deny', 'id' => $this->resource, 'role' => $role->role_id)) ?>" class="btn btn-mini btn-warning pull-right">Deny Access</a>
+                                <?php else: ?>
+                                    <a href="<?php echo $this->url(array('action' => 'grant', 'id' => $this->resource, 'role' => $role->role_id)) ?>" class="btn btn-mini btn-success pull-right">Grant Access</a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+

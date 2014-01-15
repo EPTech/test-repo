@@ -1,0 +1,39 @@
+<?php $this->headLink()->appendStylesheet('/resources/js/chosen/chosen.css'); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/resources/js/chosen/chosen.jquery.min.js')); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/resources/js/chosen/ajax-chosen.min.js')); ?>
+<?php $this->headLink()->appendStylesheet('/vendors/jquery/css/ui-lightness/jquery-ui-1.8.21.custom.css'); ?>
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/jquery/js/jquery-ui-1.8.21.custom.min.js')); ?>
+
+<script type="text/javascript">
+    $(function(){
+
+        $("#mla_id").chosen({width : '400px;' });
+        $("#mla_id").ajaxChosen({
+            type: 'GET',
+            url: "/system/mla/getmla/format/json",
+            afterTypeDelay : 0,
+            minTermLength : 1,
+            dataType: 'json'
+        }, function (data) {
+            var results = [];
+	
+            $.each(data, function (i, val) {
+                results.push({ value: val.mla_id, text: val.mla_firstname+' '+val.mla_lastname+" ("+val.state_name+" , "+val.name+" )" });
+            });
+	
+            return results;
+        });
+        
+       
+    });
+</script>
+<section id="content">
+    <div class="container marg-top">
+        <div class="row-fluid">
+            <!-- Tab -->
+            <div class="page">       <h4 class="black"><i class="icon-user"></i> Attach Mla</h4>
+                <?php echo $this->form; ?>
+            </div>
+        </div>
+    </div>
+</section>

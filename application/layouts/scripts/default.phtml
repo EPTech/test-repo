@@ -1,0 +1,50 @@
+!DOCTYPE html>
+<html lang="en">
+    <!-- include the partial  _template -->
+    <?php echo $this->render("/partials/_shared/_template/header.phtml"); ?> 
+
+    <body>
+        <?php echo $this->render("/partials/_shared/topbar.phtml"); ?>
+        <style>
+            li {
+                list-style-type: none;
+            }
+        </style>
+
+
+        <div class="main-container container-fluid">
+            <?php echo $this->render("/partials/_shared/sidenav.phtml"); ?>
+            <div class="main-content">
+                <?php echo $this->render("/partials/default/breadcrumbs.phtml"); ?>
+                <div class="page-content">
+                    <div class="page-header position-relative">
+                      <!--  <h1>Testing<small><i class="icon-double-angle-right"></i>    overview &amp; stats</small></h1> -->
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <!-- PAGE CONTENT BEGINS -->
+                                <?php $messages = $this->flashMessenger('warning', '<li class="alert alert-%s">%s</li>'); ?>
+                                <?php if ($messages): ?>
+                                    <ul class="messages">
+                                        <?php echo $messages; ?>
+                                    </ul> 
+                                <?php endif; ?>
+                                <?php echo $this->layout()->content; ?>
+                                <!-- PAGE CONTENT ENDS -->
+                            </div><!--/.span-->
+                        </div><!--/.row-fluid-->
+                    </div><!--/.page-header-->
+
+                </div>
+                <?php echo $this->render("/partials/_shared/settings.phtml"); ?>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-small btn-inverse">
+            <i class="icon-double-angle-up icon-only bigger-110"></i>
+        </a>
+        <?php echo $this->render("/partials/_shared/_template/footer.phtml"); ?>
+
+        <div class="modalm"><!-- Place at bottom of page --></div>
+
+    </body>
+</html>

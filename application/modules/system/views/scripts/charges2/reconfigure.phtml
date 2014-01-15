@@ -1,0 +1,57 @@
+<script>
+    $(function(){
+         var vehicleEntity = '<?php echo $this->vehicleEntity; ?>';
+       //alert(postStatus);
+       if(vehicleEntity == 0){
+        $("#chargeSettings").css('display','none');
+       }
+       else {     
+        $("#sub").click(function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            var emptyElements = 0;
+            $(".checkbox").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                    var indexValue = $(this).prev().prev().val();
+                    var elementName = '#settings-'+indexValue+'-charge_amount';
+                    if($(elementName).val() == ""){
+                        alert("Please enter an amount for the checked item");
+                        $(elementName).focus();
+                        emptyElements += 1;
+                        //break out of the loop
+                        return false;
+                    }
+                    
+                }   
+            });
+            
+            if(emptyElements == 0 & checkedInputs > 1){
+                $("#chargeSettingForm").submit();
+            }
+            if(checkedInputs == 0 ){
+                alert("check at least one element");
+            }
+        })
+        
+        $('input.check-ctrl').live('click', function(e){
+            if($(this).is(":checked")){
+                $('.checkbox').attr("checked",true);
+            }
+            else{
+                $('.checkbox').attr("checked",false);
+            }
+        }) ;
+    
+        $('input.checkbox').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl').attr("checked",false);
+            }
+        }) ;
+ 
+       }
+    })
+    
+</script>
+<?php echo $this->form; ?>

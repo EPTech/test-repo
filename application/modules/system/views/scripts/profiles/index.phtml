@@ -1,0 +1,178 @@
+<?php $this->headScript()->appendFile($this->baseUrl('/vendors/DataTables/media/js/jquery.dataTables.js')); ?>
+<script type="text/javascript">
+    $(function(){
+        var oTable = $('table#datatable').dataTable({
+            "sDom": '<T>tir<p>',
+            'iDisplayLength':<?php echo $this->items->getDefaultDisplayLength(); ?>,
+            'iDeferLoading':<?php echo $this->items->getTotal(); ?>,
+            'bProcessing':true,
+            'bServerSide':true,
+            'sAjaxSource':'<?php echo $this->baseUrl('/default/profiles/index/format/json'); ?>',
+            'aoColumnDefs' : [
+                {'bSortable': false, 'aTargets': [0]}
+            ],
+           
+            'fnServerParams': function(aoData){
+                var sSearch = $('#table-search2').val();
+                aoData.push(  {
+                    "name": "sSearch", 
+                    "value":  sSearch
+                } );
+               
+                
+                return aoData;
+            }            
+        })    
+        $( "#table-search2" ).keyup( function () {
+            oTable.fnDraw();
+        } );
+       
+        
+        
+        
+        $("#resetFilter").click(function(e){
+            e.preventDefault();
+            $("#table-search").val("");
+            $("#order-status").val("");
+            oTable.fnDraw();
+        })
+        
+        $("#resetDateranges").click(function(e){
+            e.preventDefault();
+            $("#order-date").val("");
+            $("#end-order-date").val("");
+            oTable.fnDraw();
+        })
+        
+        
+        $('table th input:checkbox').on('click' , function(){
+            var that = this;
+            $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function(){
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+						
+        });
+    
+        $('input.check-item').click(function(e){
+            //alert('yes');
+            if(!$(this).is(":checked")){
+                $('.check-ctrl').attr("checked",false);
+            }
+        }) ;
+ 
+        //click button
+        $('a.removeItem').live('click', function(e){
+            e.preventDefault();
+            var  url = $(this).attr('href');
+            if(confirm("do you want to remove this Items ?")){
+                window.location.href = url;
+            }
+        }) ;  
+        
+        //group actions
+        //delete single item
+        $('#delete-all').live('click', function(e){
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("input.check-item").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row")
+            }
+            else {
+                if(confirm("are you sure you want to remove all ?")){
+                    $('form#itemList').submit();
+                }
+            }
+        }) ;  
+        
+        $('input#sub-btn').click(function(e){
+            //  alert('here');
+            e.preventDefault();
+            var checkedInputs = 0;
+            $("form#group-id input").each(function(){
+                if($(this).is(":checked")){
+                    checkedInputs += 1;
+                }   
+            });
+            if(checkedInputs == 0){
+                alert("check at least one row to proceed")
+            }
+            else {
+                // alert('checked is '+checkedInputs)
+                $('form#group-id').submit();
+            }
+     
+        }) ;  
+
+
+    });
+</script>
+<style type="text/css">
+    form#searchbox {
+        margin: 0 0 5px 0;
+        display: inline-block;
+
+    }
+</style>
+
+
+<!-- Tab -->
+<h3><i classs="icon-user"></i> <?php echo $this->itemName; ?>(s)</h3>
+<?php if ($this->items->fetchAll()->count() == 0) : ?>
+    <div class="alert-info">There are no <?php echo $this->itemName; ?>s customers currently set up </div> <br/>
+    <div class="alert-info">Click <a class="btn" href="/space/rooms/add"><b>Here</b></a> to set up  a new <?php echo $this->itemName; ?></div>
+<?php else : ?>
+    <div>
+        <a  href="/default/profile/add" class="btn" title="new ward type">Add customer</a>&nbsp;&nbsp;&nbsp;
+    </div>
+    <?php // $this->title = $this->itemName; ?>
+    <br/>
+    <div id="searchId" >
+        <div id="searchclass2">
+            <form id="searchbox2" action="">
+                <input name="table-search" id="table-search2" type="text" placeholder="Enter mvregno">
+            </form>
+        </div>
+    </div>
+    <?php $messages = $this->flashMessenger('warning', '<li class="alert alert-%s">%s</li>'); ?>
+    <?php if ($messages): ?>
+        <ul class="messages">
+            <?php // echo $messages; ?>
+        </ul> 
+    <?php endif; ?>
+
+    <form id="itemList" action="/default/profile/deleteall/" method="post">
+        <table id="datatable" class="ttable table-striped table-bordered table-hover dataTable" >
+            <thead>
+                <tr>
+                  <!--  <th><a class="tblCaption" href="#"><input type="checkbox" name="checkctrl" class="check-ctrl" /></th> -->
+                    <th><a class="tblCaption" href="#"><?php echo 'Mvregno'; ?></a></th>
+                    <th><a class="tblCaption" href="#"><?php echo 'Lastname'; ?></a></th>
+                    <th><a class="tblCaption" href="#"><?php echo 'Firstname'; ?></a></th>
+                    <th><a class="tblCaption" href="#"><?php echo 'State'; ?></a></th>
+                    <th><a class="tblCaption" href="#"><?php echo 'LGA'; ?></a></th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->items->fetchAll() as $item) { ?>
+                    <tr>
+               <!--         <td><input type="checkbox" name="itemid[]" class="check-item" value="<?php echo $item->mvregno; ?>"/></td> -->
+                        <td><?php echo $item->mvregno; ?></td>
+                        <td><?php echo $item->lastname; ?></td>
+                        <td><?php echo $item->firstname; ?> </td>
+                        <td><?php echo $item->state_name; ?> </td>
+                        <td><?php echo $item->lga_name; ?> </td>
+                        <td>&nbsp;<a href="/default/profiles/view/id/<?php echo $item->mvregno; ?>">View</a>&nbsp;&nbsp;</td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </form>
+<?php endif; ?>

@@ -1,0 +1,35 @@
+ 
+<?php if ($this->pageCount): ?>
+<div>
+<ul id="pagination-digg">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+<li> <a href="<?php echo $this->url(array('page' => $this->previous,"sql" => $this->sql),null,false); ?>">
+   « Previous
+  </a> </li> 
+<?php else: ?>
+  <li class="previous-off">« Previous</li> 
+<?php endif; ?>
+ 
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+<li >  <a href="<?php echo $this->url(array('page' => $page, "sql" => $this->sql),null,false); ?>">
+        <?php echo $page; ?>
+    </a>   </li>
+  <?php else: ?>
+   <li class="active"> <?php echo $page; ?>  </li>
+  <?php endif; ?>
+<?php endforeach; ?>
+ 
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+<li class="next">  <a href="<?php echo $this->url(array('page' => $this->next, "sql" => $this->sql),null, false); ?>">
+    Next »
+  </a> </li>
+<?php else: ?>
+  <li class="next-off"><span class="disabled">Next »</span> </li>
+<?php endif; ?>
+</ul>
+</div>
+<?php endif; ?>
